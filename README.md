@@ -4,11 +4,11 @@ Spark Class - Creating very basic class definitions to be used with Cisco Spark.
 
 ## Installation
 
-TODO: Describe the installation process
+You probably already know what to do.
 
 ## Usage
 
-TODO: Write usage instructions
+The spark-testing is just a short program to show how the classes are used. Add in the values needed at the top to run.
 
 ## Contributing
 

@@ -13,6 +13,7 @@ header = {"Authorization": "%s" % token}
 #roomId = 'VALUE'
 #personId = 'VALUE'
 #membershipId = 'VALUE'
+#emailId = 'VALUE'
 
 ############ Room Testing ##############
 def roomTest(roomId, personId, messageId) :
@@ -40,11 +41,12 @@ def roomTest(roomId, personId, messageId) :
         print "No items returned in the search"
 
 ############ Person Testing ##############
-def personTest(roomId, personId, messageId) :
+def personTest(roomId, personId, messageId, emailId) :
     person = CiscoSpark.Person(hostname, header)
     localMessageId = messageId
     localRoomId = roomId
     localPersonId = personId
+    localEmailId = emailId
 
     print '+++==- Testing Person Class -==+++'
     
@@ -56,7 +58,7 @@ def personTest(roomId, personId, messageId) :
         print 'There was an error and no details on the person were returned'
 
     #personSearch = person.listPeople(displayName = 'Jim')
-    personSearch = person.listPeople(email = 'keorourk@cisco.com')
+    personSearch = person.listPeople(email = localEmailId)
     if personSearch['items'] :
         print '##Call to listPeople##'
         print json.dumps(personSearch, indent=4)
@@ -114,12 +116,13 @@ def messageTest(roomId, personId, messageId) :
         loopControl = loopControl.lower()
 
 ############ Membership Testing ##############
-def membershipTest(roomId, personId, messageId, membershipId) :
+def membershipTest(roomId, personId, messageId, membershipId, emailId) :
     membership = CiscoSpark.Membership(hostname, header)
     localMessageId = messageId
     localRoomId = roomId
     localPersonId = personId
     localMembershipId = membershipId
+    localEmailId = emailId
 
     print '+++==- Testing Membership Class -==+++'
     detailDict = membership.getDetails(localMembershipId)
@@ -129,7 +132,7 @@ def membershipTest(roomId, personId, messageId, membershipId) :
     else :
         print 'There was an error and no membership details were returned'
    
-    membershipDict = membership.listMemberships(localRoomId, personEmail = 'keorourk@cisco.com', max=4)
+    membershipDict = membership.listMemberships(localRoomId, personEmail = localEmailId, max = 4)
     #membershipDict = membership.listMemberships(localRoomId, max=4)
     if membershipDict :
         print '##Call to listMemberships##'
@@ -137,7 +140,7 @@ def membershipTest(roomId, personId, messageId, membershipId) :
     else :
         print 'There was and error and not memberships were listed'
 
-    #membershipCreated = membership.create(localRoomId, '', 'keorourk@cisco.com')
+    #membershipCreated = membership.create(localRoomId, '', localEmailId)
     #if membershipCreated :
     #    print 'You message was created!'
     #else :
@@ -154,8 +157,8 @@ def membershipTest(roomId, personId, messageId, membershipId) :
 
 
 messageTest(roomId, personId, messageId)
-personTest(roomId, personId, messageId)
+personTest(roomId, personId, messageId, emailId)
 roomTest(roomId, personId, messageId)
-membershipTest(roomId, personId, messageId, membershipId)
+membershipTest(roomId, personId, messageId, membershipId, emailId)
 
 exit()
